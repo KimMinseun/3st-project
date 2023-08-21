@@ -1,0 +1,48 @@
+<script>
+var xhr = new XMLHttpRequest();
+var url = 'http://api.data.go.kr/openapi/tn_pubr_public_pblprfr_event_info_api'; /*URL*/
+var queryParams =
+  "?" +
+  encodeURIComponent("serviceKey") +
+  "=" +
+  "YF5NT9aXhtTNKURlG0pChRmvqgG9m5CzMf8ZFY21b1p7ggLa3msyJXw%2Bmq%2FEXwMojtP4JgrQ%2FnGU9OY6luSW5w%3D%3D"; /*Service Key*/
+queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100'); /**/
+queryParams += '&' + encodeURIComponent('type') + '=' + encodeURIComponent('xml'); /**/
+queryParams += '&' + encodeURIComponent('eventNm') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('opar') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('eventCo') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('eventStartDate') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('eventEndDate') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('eventStartTime') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('eventEndTime') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('chrgeInfo') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('mnnst') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('auspcInstt') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('phoneNumber') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('suprtInstt') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('seatNumber') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('admfee') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('entncAge') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('dscntInfo') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('atpn') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('homepageUrl') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('advantkInfo') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('prkplceYn') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('rdnmadr') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('lnmadr') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('latitude') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('longitude') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('referenceDate') + '=' + encodeURIComponent(''); /**/
+queryParams += '&' + encodeURIComponent('instt_code') + '=' + encodeURIComponent(''); /**/
+xhr.open('GET', url + queryParams);
+xhr.onreadystatechange = function () {
+    if (this.readyState == 4) {
+        console.log('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
+        //   alert('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
+    }
+};
+
+xhr.send('');
+
+</script>

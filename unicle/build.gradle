@@ -1,0 +1,56 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.2'
+	id 'io.spring.dependency-management' version '1.1.2'
+}
+
+group = 'new'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
+	implementation 'javax.servlet:javax.servlet-api:4.0.1' // 적절한 버전을 사용하세요
+	
+	
+	//aop
+	//implementation 'org.springframework.boot:spring-boot-starter-aop'
+		
+	// https://mvnrepository.com/artifact/org.json/json
+	implementation 'org.json:json:20180813'
+	
+	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+	//implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	
+	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+    //implementation 'javax.servlet:jstl' //스프링부트 3.0 미만
+    implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+    
+     //security
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	//testImplementation 'org.springframework.security:spring-security-test'
+	
+	//jwt
+	//implementation 'com.auth0:java-jwt:4.0.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.unicle.board.dao.BoardDAO">
+	<!-- id명을 호출하는 dao의 메소드와 동일하게 하는것이 좋다. -->
+
+	<!-- 현재 테이블에 저장된 레코드의 수를 리턴한다. -->
+	<select id="count" parameterType="com.example.unicle.board.dto.BoardDTO"
+		resultType="int">
+		SELECT count(*) FROM board WHERE boardtype = #{boardType}
+	</select>
+
+	<select id="getAllBoards"
+		parameterType="com.example.unicle.board.dto.BoardDTO"
+		resultType="com.example.unicle.board.dto.BoardDTO">
+  
+   select c.* from (
+   SELECT ROW_NUMBER() OVER(ORDER BY rnum desc) rn,b.*
+    FROM (
+      SELECT rownum AS rnum, a.*
+      FROM (
+        SELECT b.*, u.b_nickname 
+        FROM board b LEFT JOIN b_user u ON b.writer = u.B_USERID
+        WHERE b.boardtype =  #{boardType}
+         <if test="writer != null and writer != ''">
+	    	AND b.writer = #{writer}
+	    </if>	
+        ORDER BY b.num asc
+      ) a
+    ) b
+   ) c
+  <![CDATA[
+  	WHERE c.rn >= #{startRow} AND c.rn <= #{endRow}
+  ]]>
+</select>
+
+	<insert id="insertBoard" parameterType="BoardDTO"> INSERT INTO
+		board(num,writer, subject, reg_date, readcount, ref, re_step, re_level,
+		content, ip, upload, memberEmail, boardtype)
+		VALUES(board_num_seq.nextval,#{writer} ,#{subject, jdbcType=VARCHAR},
+		sysdate, 0, <choose>
+			<when test="ref==0">
+				board_num_seq.nextval
+			</when>
+			<otherwise>
+				#{ref}
+			</otherwise>
+		</choose>, #{re_step},
+		#{re_level}, #{content, jdbcType=VARCHAR}, #{ip, jdbcType=VARCHAR},
+		#{upload, jdbcType=VARCHAR}, #{memberEmail, jdbcType=VARCHAR},
+		#{boardType}) </insert>
+
+
+	<update id="readCount" parameterType="int">
+		UPDATE board
+		SET readCount = readCount + 1
+		WHERE num=#{num}
+	</update>
+
+	<resultMap type="BoardDTO" id="contentSelect" autoMapping="true">
+		<association property="memberDTO" javaType="MemberDTO">
+			<result column="b_userId" property="b_userId" />
+		</association>
+	</resultMap>
+
+
+	<!--
+     num에 대한 board의 값들 가져오기 
+  <select id="content"
+	parameterType="int" resultType="boardDTO" >
+	SELECT b.*
+	FROM board b
+	WHERE num=#{num} 
+	
+  </select>
+  -->
+
+
+	<update id="reStepCount" parameterType="BoardDTO">
+		UPDATE board
+		SET re_step = re_step + 1
+		WHERE ref=#{ref} AND re_step > #{re_step}
+	</update>
+
+	<update id="updateBoard" parameterType="BoardDTO">
+		UPDATE board SET
+		subject=#{subject, jdbcType=VARCHAR},
+		content=#{content, jdbcType=VARCHAR},
+		upload=#{upload, jdbcType=VARCHAR}
+		WHERE num=#{num}
+	</update>
+
+	<!--
+	<update id="updateBoard" parameterType="BoardDTO"> UPDATE board SET
+	subject=#{subject}, content=#{content} <choose>
+			<when test="boardType ==
+	'001'"> </when>
+			<when test="boardType == '002'">
+				, upload=#{upload}
+	</when>
+		</choose>
+		WHERE num=#{num} </update>
+-->
+
+	<select id="selectDetail" parameterType="int"
+		resultType="com.example.unicle.board.dto.BoardDTO">
+		SELECT b.*, u.b_userID
+		FROM board b, b_user u
+		WHERE b.writer = u.b_userid(+)
+		AND num=#{num}
+	</select>
+
+
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board
+		WHERE num=#{num}
+
+	</delete>
+
+	<select id="selectBoard" parameterType="string"
+		resultType="com.example.unicle.board.dto.BoardDTO">
+		select writer, subject, num, reg_date, content, upload
+		from board  
+		where boardtype = '002'
+		And writer = #{writer};
+	</select>
+
+
+	<select id="getFile" parameterType="int" resultType="string">
+		SELECT upload
+		FROM board
+		WHERE num=#{num}
+	</select>
+
+
+</mapper>

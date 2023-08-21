@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- !DOCTYPE mapper는 루트요소를 mapper로 하라는 의미 -->
+
+<mapper namespace="com.example.unicle.member.dao.MemberDAO">
+
+
+	<!-- 회원가입 -->
+	<insert id="addMemberProcess" parameterType="MemberDTO">
+		<![CDATA[
+			INSERT INTO b_user(B_USERID, B_USERPASS, B_NICKNAME, B_USERPHONE, B_USERADD, B_USERGENDER, MEMBEREMAIL, B_ADMIN)
+			VALUES(#{b_userId}, #{b_userPass}, #{b_nickname}, #{b_userPhone}, #{b_userAdd}, #{b_userGender}, #{memberemail}, 'N')
+		]]>
+	</insert>
+
+	<select id="selectById" resultType="com.example.unicle.member.dto.MemberDTO">
+		SELECT * FROM b_user WHERE B_USERID = #{b_userId, jdbcType=VARCHAR}
+	</select>
+
+
+	<!-- 회원정보 수정 -->
+	<update id="updateMember"
+		parameterType="com.example.unicle.member.dto.MemberDTO">
+		UPDATE b_user
+		SET B_NICKNAME = #{b_nickname},
+		B_USERPHONE = #{b_userPhone},
+		B_USERADD = #{b_userAdd},
+		B_USERGENDER = #{b_userGender},
+		MEMBEREMAIL = #{memberemail}
+		WHERE B_USERID = #{b_userId}
+	</update>
+
+
+	<delete id="deleteMember" parameterType="String">
+		DELETE FROM b_user WHERE b_userId = #{b_userId}
+	</delete>
+
+
+</mapper>
